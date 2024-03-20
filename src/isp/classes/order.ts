@@ -2,6 +2,7 @@ import OrderStatus from './contracts/OrderStatus';
 import { Cart } from './cart';
 import { Messaging } from '../services/messaging';
 import { Persistency } from '../services/persistency';
+import { CustomerOrder } from './contracts/customerProtocol';
 
 export class Order {
   private _orderStatus: OrderStatus = 'open';
@@ -10,6 +11,7 @@ export class Order {
     private readonly cart: Cart,
     private readonly messaging: Messaging,
     private readonly persistency: Persistency,
+    private readonly customer: CustomerOrder,
   ) {}
 
   get orderStatus(): OrderStatus {
@@ -26,5 +28,7 @@ export class Order {
     this.messaging.sendMessage('Pedido finalizado');
     this.persistency.saveOrder();
     this.cart.clear();
+    console.log('cliente: ' + this.customer.getName());
+    console.log(this.customer.getIDN());
   }
 }
